@@ -18,3 +18,6 @@ SOURCES += main.cpp\
 HEADERS  += texteditor.h
 
 FORMS    += texteditor.ui
+
+RESOURCES += \
+    icons.qrc

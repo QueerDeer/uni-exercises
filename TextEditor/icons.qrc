@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>close.png</file>
+        <file>copy.png</file>
+        <file>create.png</file>
+        <file>cut.png</file>
+        <file>exit.png</file>
+        <file>Font.png</file>
+        <file>open.png</file>
+        <file>paste.png</file>
+        <file>program.png</file>
+        <file>qt.png</file>
+        <file>redo.png</file>
+        <file>save.png</file>
+        <file>undo.png</file>
+        <file>SaveAs.png</file>
+    </qresource>
+</RCC>
