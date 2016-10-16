@@ -21,3 +21,5 @@ FORMS    += texteditor.ui
 
 RESOURCES += \
     icons.qrc
+
+RC_FILE = WindowsResource.rc

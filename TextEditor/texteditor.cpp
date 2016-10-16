@@ -16,7 +16,7 @@ TextEditor::TextEditor(QWidget *parent, const QString &fileName) :
 {
     ui->setupUi(this);
     QApplication::setOrganizationName("MepfiSoft");
-    QApplication::setApplicationName("Text Editor");
+    QApplication::setApplicationName("Catpad");
     QSettings settings;
     QFont font = settings.value("ViewFont", QApplication::font()).value<QFont>();
     ui->textEdit->setFont(font);
@@ -96,7 +96,7 @@ void TextEditor::on_actionSelectFont_triggered()
 
 void TextEditor::on_actionAboutProgram_triggered()
 {
-    QMessageBox::about(this, tr("About me"), tr("Belozyorov Aleksander\nGroup b14-501(k05-331)"));
+    QMessageBox::about(this, tr("About me"), tr("Catpad 1.0\nBelozyorov Aleksander\nGroup B14-501(K05-331)"));
 }
 
 void TextEditor::on_actionAboutQt_triggered()
