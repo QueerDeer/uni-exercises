@@ -20,6 +20,7 @@ TextEditor::TextEditor(QWidget *parent, const QString &fileName) :
     QSettings settings;
     QFont font = settings.value("ViewFont", QApplication::font()).value<QFont>();
     ui->textEdit->setFont(font);
+    loadFile(fileName);
 }  
 
 TextEditor::~TextEditor()
@@ -127,7 +128,7 @@ void TextEditor::loadFile(const QString &fileName)
  void TextEditor::setFileName(const QString &fileName)
  {
      m_fileName = fileName;
-     setWindowTitle( QString("%1[*] - %2") .arg(m_fileName.isNull()?"untitled":QFileInfo(m_fileName).fileName()) .arg(QApplication::applicationName()) );
+     setWindowTitle( QString("%1[*] - %2") .arg(m_fileName.isNull()?"NewFile.txt":QFileInfo(m_fileName).fileName()) .arg(QApplication::applicationName()) );
  }
 
  void TextEditor::on_actionOpen_triggered()
