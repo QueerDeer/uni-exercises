@@ -40,6 +40,8 @@ private slots:
 
     bool saveFileAs();
 
+    void on_actionAboutProgram_hovered();
+
 private:
     Ui::TextEditor *ui;
 

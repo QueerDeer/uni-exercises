@@ -8,6 +8,9 @@
 #include <QFileDialog>
 #include <QTextStream>
 #include <QFileInfo>
+#include <QString>
+#include "gifanimationdemowidget.h"
+#include "ui_gifanimationdemowidget.h"
 
 
 TextEditor::TextEditor(QWidget *parent, const QString &fileName) :
@@ -97,7 +100,7 @@ void TextEditor::on_actionSelectFont_triggered()
 
 void TextEditor::on_actionAboutProgram_triggered()
 {
-    QMessageBox::about(this, tr("About me"), tr("Catpad 1.0\nBelozyorov Aleksander\nGroup B14-501(K05-331)"));
+   QMessageBox::about(this, tr("About me"), tr("Catpad 1.0\nBelozyorov Aleksander\nGroup B14-501(K05-331)"));
 }
 
 void TextEditor::on_actionAboutQt_triggered()
@@ -178,3 +181,15 @@ void TextEditor::loadFile(const QString &fileName)
      setWindowModified(false);
      return true;
  }
+
+void TextEditor::on_actionAboutProgram_hovered()
+{
+    QString egg = ui->textEdit->toPlainText();
+    if (egg=="PURKA PURKA")
+    {
+        GIFAnimationDemoWidget *w = new GIFAnimationDemoWidget;
+        w->show();
+        w->move(616,393);
+
+    }
+}

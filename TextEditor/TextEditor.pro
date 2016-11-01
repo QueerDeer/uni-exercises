@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT += core gui multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -13,13 +13,18 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        texteditor.cpp
+        texteditor.cpp \
+    gifanimationdemowidget.cpp
 
-HEADERS  += texteditor.h
+HEADERS  += texteditor.h \
+    gifanimationdemowidget.h
 
-FORMS    += texteditor.ui
+FORMS    += texteditor.ui \
+    gifanimationdemowidget.ui
 
 RESOURCES += \
-    icons.qrc
+    icons.qrc \
+    pusheen.qrc \
+    creedence.qrc
 
 RC_FILE = WindowsResource.rc
