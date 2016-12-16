@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>typicall_report.html</file>
+        <file>typicall_report_2.html</file>
+    </qresource>
+</RCC>
