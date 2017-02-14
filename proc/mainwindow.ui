@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>207</width>
-    <height>259</height>
+    <height>291</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -62,11 +62,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="lineEdit_2">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-     </widget>
+     <widget class="QTextBrowser" name="textBrowser"/>
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -91,7 +87,7 @@
       <item>
        <widget class="QLabel" name="label_6">
         <property name="text">
-         <string>RuniTime</string>
+         <string>RunTime</string>
         </property>
        </widget>
       </item>

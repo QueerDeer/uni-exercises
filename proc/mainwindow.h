@@ -30,7 +30,7 @@ private slots:
 
     void on_pushButton_2_clicked();
 
-    void finished(int exitCode, QProcess::ExitStatus exitStatus);
+    void finished();
 
     void readyReadStandardOutput();
 
