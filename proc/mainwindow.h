@@ -6,6 +6,7 @@
 #include <QStringList>
 #include <QFileDialog>
 #include <QDir>
+#include <QTime>
 
 namespace Ui {
 class MainWindow;
@@ -18,26 +19,20 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     QString processname;
-    QString outer;
     QProcess myProcess;
+    QTime m_time;
     ~MainWindow();
 
 private slots:
-    void on_actionFind_triggered();
+    bool on_actionFind_triggered();
 
-    bool on_pushButton_clicked();
+    void on_pushButton_clicked();
 
     void on_pushButton_2_clicked();
 
-    void error(QProcess::ProcessError error);
-
     void finished(int exitCode, QProcess::ExitStatus exitStatus);
 
-    void readyReadStandardError();
-
     void readyReadStandardOutput();
-
-    void started();
 
 private:
     Ui::MainWindow *ui;
