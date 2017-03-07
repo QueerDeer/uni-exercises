@@ -7,6 +7,8 @@
 #include <QThread>
 #include <QSemaphore>
 #include <QFile>
+#include <QTextStream>
+#include <QDebug>
 
 class Producer : public QThread
 {

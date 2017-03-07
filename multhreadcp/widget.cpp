@@ -1,12 +1,10 @@
 #include "widget.h"
 #include "ui_widget.h"
 
-const int DataSize = 100000;
-
+int DataSize = 128;
 const int BufferSize = 8192;
 char buffer[BufferSize];
 QString filename;
-
 QSemaphore freeBytes(BufferSize);
 QSemaphore usedBytes;
 
@@ -41,21 +39,34 @@ void Widget::on_pushButton_clicked()
 
 void Producer::run()
 {
-    QFile file("txt.txt");
+    QFile file_exp(filename);
+    if( !file_exp.open(QFile::ReadOnly | QIODevice::Text) )
+    {
+        return;
+    }
+    DataSize = file_exp.size();
+    QTextStream in(&file_exp);
     for (int i = 0; i < DataSize; ++i)
     {
         freeBytes.acquire();
-        //buffer[i % BufferSize] = "ACGT"[(int)qrand() % 4];
+        in.operator >>(buffer[i % BufferSize]);
         usedBytes.release();
     }
+    file_exp.close();
 }
 
 void Consumer::run()
 {
-    for (int i = 0; i < DataSize; ++i) {
+    QFile file_imp("txt_imp.txt");
+    if( !file_imp.open(QFile::WriteOnly | QIODevice::Text) )
+    {
+        return;
+    }
+    QTextStream out(&file_imp);
+    for (int i = 0; i < DataSize; ++i)
+    {
         usedBytes.acquire();
-        //fprintf(stderr, "%c", buffer[i % BufferSize]);
+        out.operator <<(buffer[i % BufferSize]);
         freeBytes.release();
     }
-    //fprintf(stderr, "\n");
 }
