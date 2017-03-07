@@ -1,8 +1,8 @@
 #include "widget.h"
 #include "ui_widget.h"
 
-int DataSize = 128;
-const int BufferSize = 8192;
+int DataSize;
+const int BufferSize = 64;
 char buffer[BufferSize];
 QString filename;
 QSemaphore freeBytes(BufferSize);
@@ -28,14 +28,30 @@ void Widget::on_pushButton_clicked()
         return;
     }
     ui->lineEdit->setText(filename);
-
     Producer producer;
     Consumer consumer;
+    qRegisterMetaType<QList<QString>>("QList<QString>");
+    connect(&producer, SIGNAL(send(QList<QString>)), this, SLOT(update(QList<QString>)));
     producer.start();
     consumer.start();
     producer.wait();
     consumer.wait();
 }
+
+void Widget::update (QList<QString> sendedlist)
+{
+    ui->lineEdit_4->setText(sendedlist.takeAt(0));
+    ui->lineEdit_4->repaint();
+    ui->lineEdit_5->setText(sendedlist.takeAt(0));
+    ui->lineEdit_5->repaint();
+    ui->lineEdit_2->setText(sendedlist.takeAt(0));
+    ui->lineEdit_2->repaint();
+    ui->lineEdit_3->setText(sendedlist.takeAt(0));
+    ui->lineEdit_3->repaint();
+    Sleep(64);
+}
+
+
 
 void Producer::run()
 {
@@ -45,11 +61,21 @@ void Producer::run()
         return;
     }
     DataSize = file_exp.size();
+    QList<QString> sendlist;
+    QString string;
+    int realtimesize = 0;
     QTextStream in(&file_exp);
     for (int i = 0; i < DataSize; ++i)
     {
         freeBytes.acquire();
         in.operator >>(buffer[i % BufferSize]);
+        realtimesize++;
+        sendlist << QString::number(realtimesize);
+        sendlist << QString::number(DataSize);
+        sendlist << (string = QString::fromUtf8(buffer));
+        sendlist << QString::number(realtimesize / BufferSize);
+        emit send(sendlist);
+        sendlist.clear();
         usedBytes.release();
     }
     file_exp.close();
