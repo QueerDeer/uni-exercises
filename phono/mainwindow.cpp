@@ -6,7 +6,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    QApplication::setApplicationName("Phonoteca");
+    QApplication::setApplicationName(tr("Phonoteca"));
     ui->setupUi(this);
 
     model = new musicmodel();
@@ -70,7 +70,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     if(this->isWindowModified())
     {
-        switch(QMessageBox::warning(this, tr("Document modified"), "The document has been modified. Do you want to save your changes?\nYou will lose any unsaved changes.", QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel, QMessageBox::Cancel))
+        switch(QMessageBox::warning(this, tr("Document modified"), tr("The document has been modified. Do you want to save your changes?\nYou will lose any unsaved changes."), QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel, QMessageBox::Cancel))
         {
 
         case QMessageBox::Yes:
@@ -109,7 +109,7 @@ bool MainWindow::saveFile()
 
         if(!new_file.open(QIODevice::WriteOnly))
         {
-            QMessageBox::warning(this, "Error", "Can't save the file");
+            QMessageBox::warning(this, tr("Error"), tr("Can't save the file"));
             return false;
         } else
         {
@@ -128,7 +128,7 @@ bool MainWindow::saveFile()
 
 bool MainWindow::saveFileAs()
 {
-    QString fileName = QFileDialog::getSaveFileName(this, "Save", file.isNull()?QDir::currentPath():file, "Text files(*.txt)");
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save"), file.isNull()?QDir::currentPath():file, tr("Text files(*.txt)"));
 
     if(!fileName.isEmpty())
     {
@@ -200,7 +200,7 @@ void MainWindow::on_actionSave_As_triggered()
 
 void MainWindow::on_actionOpen_triggered()
 {
-    QString filename = QFileDialog::getOpenFileName(this, "Open file", QDir::currentPath(), "text files (*.txt)");
+    QString filename = QFileDialog::getOpenFileName(this, tr("Open file"), QDir::currentPath(), tr("text files (*.txt)"));
 
     if(filename.isNull())
     {

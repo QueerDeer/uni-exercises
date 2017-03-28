@@ -11,6 +11,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = phono
 TEMPLATE = app
 
+TRANSLATIONS += QtLanguage_ru.ts
 
 SOURCES += main.cpp\
         mainwindow.cpp \
@@ -38,3 +39,6 @@ HEADERS  += mainwindow.h \
 FORMS    += mainwindow.ui \
     albumdialog.ui \
     artistdialog.ui
+
+DISTFILES += \
+    QtLanguage_ru.ts
