@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDebug>
+#include <QComboBox>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -292,4 +293,23 @@ void MainWindow::on_actionDelete_Item_triggered()
     }
 
     setWindowModified(true);
+}
+
+void MainWindow::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::LanguageChange) {
+        ui->retranslateUi(this);
+    }
+}
+
+void MainWindow::on_action_2_triggered()
+{
+    qtLanguageTranslator.load(QString("QtLanguage_") + QString("ru"));
+    qApp->installTranslator(&qtLanguageTranslator);
+}
+
+void MainWindow::on_actionEnglish_triggered()
+{
+    qtLanguageTranslator.load(QString("QtLanguage_") + QString("en"));
+    qApp->installTranslator(&qtLanguageTranslator);
 }

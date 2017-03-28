@@ -13,6 +13,9 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QCloseEvent>
+#include <QTranslator>
+#include <QLibraryInfo>
+#include <QEvent>
 
 namespace Ui {
 class MainWindow;
@@ -27,6 +30,7 @@ signals:
 
 protected:
     void closeEvent(QCloseEvent *event);
+    void changeEvent(QEvent * event) override;
 
 public:
     explicit MainWindow(QWidget *parent = 0);
@@ -54,12 +58,17 @@ private slots:
 
     void on_actionDelete_Item_triggered();
 
+    void on_action_2_triggered();
+
+    void on_actionEnglish_triggered();
+
 private:
     Ui::MainWindow *ui;
     musicmodel *model;
     QString file;
     bool saveFile();
     bool saveFileAs();
+    QTranslator qtLanguageTranslator;
 };
 
 #endif // MAINWINDOW_H

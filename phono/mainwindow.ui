@@ -26,7 +26,7 @@
      <x>0</x>
      <y>0</y>
      <width>459</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFIle">
@@ -37,6 +37,9 @@
     <addaction name="actionSave_As"/>
     <addaction name="separator"/>
     <addaction name="actionOpen"/>
+    <addaction name="separator"/>
+    <addaction name="action_2"/>
+    <addaction name="actionEnglish"/>
    </widget>
    <widget class="QMenu" name="menuEditing">
     <property name="title">
@@ -100,6 +103,16 @@
   <action name="actionDelete_Item">
    <property name="text">
     <string>Delete Item</string>
+   </property>
+  </action>
+  <action name="action_2">
+   <property name="text">
+    <string>Русский</string>
+   </property>
+  </action>
+  <action name="actionEnglish">
+   <property name="text">
+    <string>English</string>
    </property>
   </action>
  </widget>
