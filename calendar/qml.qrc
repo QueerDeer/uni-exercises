@@ -1,0 +1,12 @@
+﻿<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>left.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>right.png</file>
+    </qresource>
+</RCC>
+
