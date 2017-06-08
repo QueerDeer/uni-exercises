@@ -31,6 +31,9 @@ void Widget::on_pushButton_3_clicked()
 
     ui->label->setPixmap(QPixmap(file_name).scaled(w,h,Qt::KeepAspectRatio));
     ui->label->show();
+
+    ui->label_2->setPixmap(QPixmap(file_name).scaled(w,h,Qt::KeepAspectRatio));
+    ui->label_2->show();
 }
 
 void Widget::on_comboBox_currentIndexChanged(const QString &arg1)
@@ -62,11 +65,22 @@ void Widget::on_pushButton_2_clicked()
     int w = image.width();
     int h = image.height();
 
-    QImage completed_image(w, h, QImage::Format_RGB32);
+//    QImage completed_image(w, h, QImage::Format_RGB32);
+    QImage completed_image = image;
 
-    QColor matrix[h][w];
-    QColor extended_matrix[h+2*kernel_half_size][w+2*kernel_half_size];
     QColor point;
+
+    QColor **matrix = new QColor *[h];
+
+    for (int i = 0; i < h; i++) {
+      matrix[i] = new QColor [w];
+    }
+
+    QColor **extended_matrix = new QColor *[h+2*kernel_half_size];
+
+    for (int i = 0; i < h+2*kernel_half_size; i++) {
+      extended_matrix[i] = new QColor [w+2*kernel_half_size];
+    }
 
     for (int i=0; i<h; i++)
     {
@@ -172,6 +186,9 @@ void Widget::on_pushButton_2_clicked()
             R = 0;
             G = 0;
             B = 0;
+//            usleep(1);
+            ui->label_2->setPixmap(QPixmap::fromImage(completed_image).scaled(w,h,Qt::KeepAspectRatio));
+            ui->label_2->repaint();
         }
     }
 

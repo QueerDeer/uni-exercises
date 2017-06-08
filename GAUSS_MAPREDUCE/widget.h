@@ -9,6 +9,7 @@
 #include <cmath>
 #include <QColor>
 #include <QTableWidgetItem>
+//#include <unistd.h>
 
 namespace Ui {
 class Widget;
