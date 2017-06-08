@@ -13,6 +13,8 @@ TEMPLATE = app
 
 TRANSLATIONS += $${TARGET}_ru.ts
 
+CONFIG += c++11
+
 SOURCES += main.cpp\
         widget.cpp
 

@@ -10,6 +10,9 @@
 #include <QColor>
 #include <QTableWidgetItem>
 //#include <unistd.h>
+#include <QtConcurrent/QtConcurrent>
+#include <thread>
+#include <QThread>
 
 namespace Ui {
 class Widget;
@@ -36,6 +39,8 @@ private slots:
 
     void on_pushButton_4_clicked();
 
+    void on_pushButton_5_clicked();
+
 private:
     Ui::Widget *ui;
     QTranslator qtLanguageTranslator;
@@ -43,6 +48,7 @@ private:
     double gKernel[99][99];
     QImage for_save;
     int iter = 0;
+    int flag = 0;
 };
 
 #endif // WIDGET_H

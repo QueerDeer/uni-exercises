@@ -1,5 +1,6 @@
 #include "widget.h"
 #include "ui_widget.h"
+#include <QDebug>
 
 Widget::Widget(QWidget *parent) :
     QWidget(parent),
@@ -12,6 +13,8 @@ Widget::Widget(QWidget *parent) :
 
     ui->comboBox->addItem("RU");
     ui->comboBox->addItem("EN");
+    ui->pushButton_5->setEnabled(false);
+    ui->lcdNumber->display(QString::number(QThread::idealThreadCount()));
 }
 
 Widget::~Widget()
@@ -34,6 +37,9 @@ void Widget::on_pushButton_3_clicked()
 
     ui->label_2->setPixmap(QPixmap(file_name).scaled(w,h,Qt::KeepAspectRatio));
     ui->label_2->show();
+
+    ui->progressBar->setValue(0);
+
 }
 
 void Widget::on_comboBox_currentIndexChanged(const QString &arg1)
@@ -56,7 +62,10 @@ void Widget::on_comboBox_currentIndexChanged(const QString &arg1)
 
 void Widget::on_pushButton_2_clicked()
 {
+    ui->pushButton_5->setEnabled(true);
+
     int kernel_size = ui->spinBox->text().toInt();
+    int counter = 0;
     int kernel_half_size = (kernel_size-1)/2;
     double R = 0.0, G = 0.0, B = 0.0;
 
@@ -65,7 +74,6 @@ void Widget::on_pushButton_2_clicked()
     int w = image.width();
     int h = image.height();
 
-//    QImage completed_image(w, h, QImage::Format_RGB32);
     QImage completed_image = image;
 
     QColor point;
@@ -189,11 +197,26 @@ void Widget::on_pushButton_2_clicked()
 //            usleep(1);
             ui->label_2->setPixmap(QPixmap::fromImage(completed_image).scaled(w,h,Qt::KeepAspectRatio));
             ui->label_2->repaint();
+            counter++;
+            if (flag)
+            {
+                flag = 0;
+                break;
+            }
+            ui->progressBar->setValue(100*counter/(w*h));
+        }
+
+        if (flag)
+        {
+            flag = 0;
+            break;
         }
     }
 
     ui->label_2->setPixmap(QPixmap::fromImage(completed_image));
     for_save = completed_image;
+    flag = 0;
+    ui->pushButton_5->setEnabled(false);
 }
 
 void Widget::on_pushButton_clicked()
@@ -249,4 +272,15 @@ void Widget::on_pushButton_4_clicked()
     {
         for_save.save("./" + source_name.baseName() + QString::number(++iter) + '.' + source_name.suffix());
     }
+}
+
+void Widget::on_pushButton_5_clicked()
+{
+    ui->pushButton_5->setEnabled(false);
+    qDebug() << "yay";
+
+    if (flag)
+        flag = 0;
+    else
+        flag = 1;
 }
