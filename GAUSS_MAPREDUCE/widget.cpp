@@ -14,7 +14,7 @@ Widget::Widget(QWidget *parent) :
     ui->comboBox->addItem("RU");
     ui->comboBox->addItem("EN");
     ui->pushButton_5->setEnabled(false);
-    ui->lcdNumber->display(QString::number(QThread::idealThreadCount()));
+    ui->spinBox_2->setValue(QThread::idealThreadCount());
 }
 
 Widget::~Widget()
@@ -190,17 +190,17 @@ void Widget::on_pushButton_2_clicked()
             if (G < 0) G = 0;
             if (B < 0) B = 0;
             point.setRgb(R,G,B);
-            completed_image.setPixel(j-kernel_half_size, i-kernel_half_size, point.rgb());
             R = 0;
             G = 0;
             B = 0;
-//            usleep(1);
+
+            completed_image.setPixel(j-kernel_half_size, i-kernel_half_size, point.rgb());
             ui->label_2->setPixmap(QPixmap::fromImage(completed_image).scaled(w,h,Qt::KeepAspectRatio));
             ui->label_2->repaint();
             counter++;
+            QApplication::processEvents();
             if (flag)
             {
-                flag = 0;
                 break;
             }
             ui->progressBar->setValue(100*counter/(w*h));
@@ -215,7 +215,6 @@ void Widget::on_pushButton_2_clicked()
 
     ui->label_2->setPixmap(QPixmap::fromImage(completed_image));
     for_save = completed_image;
-    flag = 0;
     ui->pushButton_5->setEnabled(false);
 }
 

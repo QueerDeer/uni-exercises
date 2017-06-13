@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>662</width>
+    <width>748</width>
     <height>244</height>
    </rect>
   </property>
@@ -17,7 +17,7 @@
    <item row="0" column="5">
     <widget class="QLabel" name="label_3">
      <property name="text">
-      <string>ideal amount of threads: </string>
+      <string>amount of threads: </string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -78,6 +78,13 @@
      </property>
     </widget>
    </item>
+   <item row="3" column="5">
+    <widget class="QProgressBar" name="progressBar">
+     <property name="value">
+      <number>0</number>
+     </property>
+    </widget>
+   </item>
    <item row="3" column="3">
     <widget class="QPushButton" name="pushButton_2">
      <property name="text">
@@ -95,15 +102,12 @@
      </property>
     </widget>
    </item>
-   <item row="3" column="5">
-    <widget class="QProgressBar" name="progressBar">
+   <item row="0" column="6">
+    <widget class="QSpinBox" name="spinBox_2">
      <property name="value">
-      <number>0</number>
+      <number>1</number>
      </property>
     </widget>
-   </item>
-   <item row="0" column="6">
-    <widget class="QLCDNumber" name="lcdNumber"/>
    </item>
   </layout>
  </widget>
