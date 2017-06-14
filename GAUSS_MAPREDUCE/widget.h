@@ -9,10 +9,11 @@
 #include <cmath>
 #include <QColor>
 #include <QTableWidgetItem>
-//#include <unistd.h>
+#include <unistd.h>
 #include <QtConcurrent/QtConcurrent>
 #include <thread>
 #include <QThread>
+#include <QPainter>
 
 namespace Ui {
 class Widget;
@@ -25,6 +26,7 @@ class Widget : public QWidget
 public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
+    double gKernel[99][99];
 
 private slots:
     void on_pushButton_3_clicked();
@@ -45,10 +47,12 @@ private:
     Ui::Widget *ui;
     QTranslator qtLanguageTranslator;
     QString file_name;
-    double gKernel[99][99];
     QImage for_save;
+    int kernel_size;
     int iter = 0;
-    int flag = 0;
+    int w;
+    int h;
+    int flag;
 };
 
 #endif // WIDGET_H

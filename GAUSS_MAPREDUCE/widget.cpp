@@ -14,6 +14,7 @@ Widget::Widget(QWidget *parent) :
     ui->comboBox->addItem("RU");
     ui->comboBox->addItem("EN");
     ui->pushButton_5->setEnabled(false);
+    ui->pushButton_2->setEnabled(false);
     ui->spinBox_2->setValue(QThread::idealThreadCount());
 }
 
@@ -24,7 +25,7 @@ Widget::~Widget()
 
 void Widget::on_pushButton_3_clicked()
 {
-    file_name = QFileDialog::getOpenFileName(this, tr("Open Image"), "", tr("Image Files (*.png *.jpg)"));
+    file_name = QFileDialog::getOpenFileName(this, tr("Open Image"), "", tr("Image Files (*.png *.jpg *.jpeg)"));
 
     if (file_name.isNull())
         return;
@@ -40,6 +41,7 @@ void Widget::on_pushButton_3_clicked()
 
     ui->progressBar->setValue(0);
 
+    ui->pushButton_2->setEnabled(true);
 }
 
 void Widget::on_comboBox_currentIndexChanged(const QString &arg1)
@@ -60,19 +62,67 @@ void Widget::on_comboBox_currentIndexChanged(const QString &arg1)
     }
 }
 
+struct Task
+{
+    int i_coord;
+    int j_coord;
+    int kernel_size;
+    int kernel_half_size;
+    QColor point;
+    QColor **extended_matrix;
+    double **gKernel;
+};
+
+using Tasks = std::vector<Task>;
+
+Task map(const Task& task)
+{
+    double R = 0.0, G = 0.0, B = 0.0;
+    for (int k = 0; k < task.kernel_size; k++)
+    {
+        for (int l = 0; l < task.kernel_size; l++)
+        {
+            R += task.extended_matrix[task.i_coord-task.kernel_half_size+k][task.j_coord-task.kernel_half_size+l].red() * task.gKernel[k][l];
+            G += task.extended_matrix[task.i_coord-task.kernel_half_size+k][task.j_coord-task.kernel_half_size+l].green() * task.gKernel[k][l];
+            B += task.extended_matrix[task.i_coord-task.kernel_half_size+k][task.j_coord-task.kernel_half_size+l].blue() * task.gKernel[k][l];
+        }
+    }
+    if (R > 255) R = 255;
+    if (G > 255) G = 255;
+    if (B > 255) B = 255;
+    if (R < 0) R = 0;
+    if (G < 0) G = 0;
+    if (B < 0) B = 0;
+    Task task2;
+    task2.i_coord = task.i_coord;
+    task2.j_coord = task.j_coord;
+    task2.point = task.point;
+    task2.point.setRgb(R,G,B);
+    R = 0;
+    G = 0;
+    B = 0;
+    return task2;
+}
+
+void reduce(Tasks &result, const Task &task)
+{
+    usleep(20);
+    result.push_back(task);
+}
+
+
 void Widget::on_pushButton_2_clicked()
 {
+    flag = 1;
     ui->pushButton_5->setEnabled(true);
 
-    int kernel_size = ui->spinBox->text().toInt();
-    int counter = 0;
+    kernel_size = ui->spinBox->text().toInt();
     int kernel_half_size = (kernel_size-1)/2;
-    double R = 0.0, G = 0.0, B = 0.0;
 
     QImage image (file_name);
 
-    int w = image.width();
-    int h = image.height();
+    w = image.width();
+    h = image.height();
 
     QImage completed_image = image;
 
@@ -170,52 +220,58 @@ void Widget::on_pushButton_2_clicked()
         }
     }
 
+    Tasks tasks;
+
+    double **Kernel = new double *[kernel_size];
+
+    for (int i = 0; i < kernel_size; i++) {
+      Kernel[i] = new double [kernel_size];
+    }
+
+    for (int i = 0; i < kernel_size; i++)
+    {
+        for (int j = 0; j < kernel_size; j++)
+        {
+            Kernel[i][j] = gKernel[i][j];
+        }
+    }
+
     for (int i=kernel_half_size; i<h+kernel_half_size; i++)
     {
         for (int j=kernel_half_size; j<w+kernel_half_size; j++)
         {
-            for (int k = 0; k < kernel_size; k++)
-            {
-                for (int l = 0; l < kernel_size; l++)
-                {
-                    R += extended_matrix[i-kernel_half_size+k][j-kernel_half_size+l].red() * gKernel[k][l];
-                    G += extended_matrix[i-kernel_half_size+k][j-kernel_half_size+l].green() * gKernel[k][l];
-                    B += extended_matrix[i-kernel_half_size+k][j-kernel_half_size+l].blue() * gKernel[k][l];
-                }
-            }
-            if (R > 255) R = 255;
-            if (G > 255) G = 255;
-            if (B > 255) B = 255;
-            if (R < 0) R = 0;
-            if (G < 0) G = 0;
-            if (B < 0) B = 0;
-            point.setRgb(R,G,B);
-            R = 0;
-            G = 0;
-            B = 0;
+            tasks.push_back(Task{i, j, kernel_size, kernel_half_size, point, extended_matrix, Kernel});
 
-            completed_image.setPixel(j-kernel_half_size, i-kernel_half_size, point.rgb());
-            ui->label_2->setPixmap(QPixmap::fromImage(completed_image).scaled(w,h,Qt::KeepAspectRatio));
-            ui->label_2->repaint();
-            counter++;
-            QApplication::processEvents();
-            if (flag)
-            {
-                break;
-            }
-            ui->progressBar->setValue(100*counter/(w*h));
         }
+    }
 
-        if (flag)
+    QFutureWatcher<Tasks> watcher;
+    connect(ui->pushButton_5, SIGNAL(clicked(bool)),
+    &watcher, SLOT(cancel()));
+
+    QFuture<Tasks> res = QtConcurrent::mappedReduced(tasks, map, reduce);
+    watcher.setFuture(res);
+
+    while (!watcher.isFinished())
+    {
+        ui->progressBar->setValue(100*watcher.progressValue()/watcher.progressMaximum());
+        QApplication::processEvents();
+    }
+
+    if (flag)
+    {
+        Tasks vec = res.result();
+        for(int i = 0; i<vec.size(); i++)
         {
-            flag = 0;
-            break;
+            completed_image.setPixel(vec[i].j_coord-kernel_half_size, vec[i].i_coord-kernel_half_size, vec[i].point.rgb());
         }
     }
 
     ui->label_2->setPixmap(QPixmap::fromImage(completed_image));
     for_save = completed_image;
     ui->pushButton_5->setEnabled(false);
+
+    flag = 1;
 }
 
 void Widget::on_pushButton_clicked()
@@ -276,10 +332,5 @@ void Widget::on_pushButton_4_clicked()
 void Widget::on_pushButton_5_clicked()
 {
     ui->pushButton_5->setEnabled(false);
-    qDebug() << "yay";
-
-    if (flag)
-        flag = 0;
-    else
-        flag = 1;
+    flag = 0;
 }

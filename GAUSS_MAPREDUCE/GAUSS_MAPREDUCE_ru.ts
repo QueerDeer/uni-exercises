@@ -14,16 +14,21 @@
     </message>
     <message>
         <location filename="widget.ui" line="20"/>
+        <source>amount of threads: </source>
+        <translation>кол-во потоков: </translation>
+    </message>
+    <message>
+        <location filename="widget.ui" line="37"/>
         <source>Load</source>
         <translation>Загрузить</translation>
     </message>
     <message>
-        <location filename="widget.ui" line="57"/>
+        <location filename="widget.ui" line="70"/>
         <source>Abort</source>
         <translation>Остановить</translation>
     </message>
     <message>
-        <location filename="widget.ui" line="71"/>
+        <location filename="widget.ui" line="63"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
@@ -32,29 +37,32 @@
         <translation type="vanished">оптимальное кол-во потоков: </translation>
     </message>
     <message>
-        <location filename="widget.ui" line="43"/>
+        <location filename="widget.ui" line="77"/>
         <source>Generate mask</source>
         <translation>Сгенерировать маску</translation>
     </message>
     <message>
-        <location filename="widget.ui" line="50"/>
+        <location filename="widget.ui" line="91"/>
         <source>Run</source>
         <translation>Запустить</translation>
     </message>
     <message>
-        <location filename="widget.ui" line="98"/>
         <source>ideal amount of threads: </source>
-        <translation>оптимальное кол-во потоков: </translation>
+        <translation type="vanished">оптимальное кол-во потоков: </translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="25"/>
+        <location filename="widget.cpp" line="28"/>
         <source>Open Image</source>
         <translation>Открыть изображение</translation>
     </message>
     <message>
-        <location filename="widget.cpp" line="25"/>
+        <location filename="widget.cpp" line="28"/>
+        <source>Image Files (*.png *.jpg *.jpeg)</source>
+        <translation>Файлы с изображениями (*.png *.jpg *.jpeg)</translation>
+    </message>
+    <message>
         <source>Image Files (*.png *.jpg)</source>
-        <translation>Файлы с изображениями (*.png *.jpg)</translation>
+        <translation type="vanished">Файлы с изображениями (*.png *.jpg)</translation>
     </message>
 </context>
 </TS>
