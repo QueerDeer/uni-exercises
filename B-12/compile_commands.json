@@ -1,0 +1,11 @@
+[
+    {
+        "arguments": [
+            "c++", 
+            "-c", 
+            "qolver.c"
+        ], 
+        "directory": "/home/groenendael/B-12", 
+        "file": "qolver.c"
+    }
+]
