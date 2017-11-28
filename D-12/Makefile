@@ -1,4 +1,14 @@
-all:
-	gcc -o test test.cpp -lrt
+CC=g++
+
+all: executable
+
+debug: CFLAGS= -g -Wall -ansi -l rt -O0
+debug: executable
+
+release: CFLAGS= -Wall -ansi -l rt -O2
+release: executable
+
+executable:
+	$(CC) $(CFLAGS) -o test test.cpp
 clean:
 	rm test
