@@ -10,17 +10,10 @@
 
 static int pid;
 static int usr_sig;
-
 static timer_t timerid;
-static struct sigaction sa;
 
 static void usrsignal_handler(int sig, siginfo_t *si, void *uc) {
-    signal(sig, SIG_IGN);
     kill(pid, usr_sig);
-
-    signal(sig, SIG_DFL);
-    if (sigaction(SIGUSR1, &sa, NULL) == -1)
-            errExit("sigaction");
 }
 
 static void timerdel_handler(int s) {
@@ -37,7 +30,7 @@ int main(int argc, char *argv[]) {
     struct tm calendar_time;
     time_t time_from_epoch;
 
-    //struct sigaction sa;
+    struct sigaction sa;
     char checker;
 
     signal(SIGINT, timerdel_handler);
