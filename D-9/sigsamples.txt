@@ -1,0 +1,3 @@
+SIGCONT 	25 	Continue	kill -CONT PID
+SIGKILL 	9 	Terminate	kill -9 PID
+SIGSTOP 	23 	Stop process	kill -STOP PID
