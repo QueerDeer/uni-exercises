@@ -33,6 +33,7 @@ void aioSigHandler(int sig, siginfo_t *si, void *ucontext) {
 
     printf("    for writing in file with descriptor %d progress ",
             aiocb.aio_fildes);
+    #sleep(10);
     while (true) {
         switch (aio_error(&aiocb)) {
             case 0:
