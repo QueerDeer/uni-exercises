@@ -14,7 +14,8 @@ int main(int argc, char *argv[]) {
 
     char *files[argc];
     int nfiles = 0;
-    int borders[argc];
+    int left_border[argc];
+    int right_border[argc];
 
     if (argc < 2) {
         fprintf(stderr,
@@ -28,10 +29,12 @@ int main(int argc, char *argv[]) {
         files[nfiles] = argv[i];
 
         if (argv[i + 1][0] != '-') {
-            borders[nfiles] = 0;
+            left_border[nfiles] = -1;
+            right_border[nfiles] = -1;
             i += 1;
         } else {
-            borders[nfiles] = 10 * atoi(argv[i + 1]) + atoi(argv[i + 2]);
+            left_border[nfiles] = -atoi(argv[i + 1]);
+            right_border[nfiles] = -atoi(argv[i + 2]);
             i += 3;
         }
 
@@ -75,14 +78,14 @@ int main(int argc, char *argv[]) {
                 ioList[j].aiocbp->aio_fildes);
 
 
-        if (borders[j] == 0) {
+        if (left_border[j] == -1) {
             struct stat st;
             stat(files[j], &st);
             size = st.st_size;
             offset = 0;
         } else {
-            size = -(borders[j] % 10) + (borders[j] / 10);
-            offset = -borders[j] / 10;
+            size = right_border[j] - left_border[j];
+            offset = left_border[j];
         }
 
         ioList[j].aiocbp->aio_buf = malloc(size);
@@ -105,7 +108,7 @@ int main(int argc, char *argv[]) {
     openReqs = numReqs;
 
     while (openReqs > 0) {
-        //sleep(10);
+        //sleep(1);
 
         if (gotSIGQUIT) {
 

@@ -33,8 +33,8 @@ void aioSigHandler(int sig, siginfo_t *si, void *ucontext) {
 
     printf("    for writing in file with descriptor %d progress ",
             aiocb.aio_fildes);
-    #sleep(10);
     while (true) {
+        //sleep(1);
         switch (aio_error(&aiocb)) {
             case 0:
                 printf("I/O succeeded\n");
