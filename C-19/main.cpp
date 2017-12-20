@@ -108,7 +108,7 @@ int main(int argc, char *argv[]) {
     openReqs = numReqs;
 
     while (openReqs > 0) {
-        //sleep(1);
+        sleep(1); // to skip "progres......."
 
         if (gotSIGQUIT) {
 
